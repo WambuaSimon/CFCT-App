@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/child_Fragment2">
+
+    <fragment
+        android:id="@+id/child_Fragment2"
+        android:name="com.cfctapp.ui.fragments.Child_Fragment"
+        android:label="fragment_child"
+        tools:layout="@layout/fragment_child" >
+        <action
+            android:id="@+id/action_child_Fragment2_to_sponsor_Fragment2"
+            app:destination="@id/sponsor_Fragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/sponsor_Fragment2"
+        android:name="com.cfctapp.ui.fragments.Sponsor_Fragment"
+        android:label="fragment_sponsor"
+        tools:layout="@layout/fragment_sponsor" />
+</navigation>
