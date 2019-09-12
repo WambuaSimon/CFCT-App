@@ -29,6 +29,7 @@ import com.cfctapp.models.SponsorModel;
 import com.cfctapp.models.SponsorModel;
 import com.cfctapp.models.SponsorModel;
 import com.cfctapp.ui.activities.MainActivity;
+import com.cfctapp.ui.activities.SponsorChild;
 import com.cfctapp.utils.CountryData;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -213,6 +214,16 @@ public class Sponsor_Fragment extends Fragment {
                         fumBottomSheetBehavior.setPeekHeight(800);
 
                         fum_dialog.show();
+                    }
+
+                    @Override
+                    public void assignChild(View v, int position) {
+                        String name = sponsorModels.get(position).getName();
+
+                        Intent intent = new Intent(getActivity(), SponsorChild.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("name",name);
+                        startActivity(intent);
                     }
 
                     @Override

@@ -104,6 +104,18 @@
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:text="Sponsor"
+            android:id="@+id/sponsor"
+            android:layout_margin="@dimen/_5sdp"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

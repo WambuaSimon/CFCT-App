@@ -1,5 +1,6 @@
 package com.cfctapp.adapter;
 
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,21 +18,18 @@ import com.cfctapp.models.ChildModel;
 import java.util.List;
 import java.util.Locale;
 
-public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder> {
+public class SponsorChildAdapter extends RecyclerView.Adapter<SponsorChildAdapter.MyViewHolder> {
 
     private List<ChildModel> childModel;
     Context context;
-    public ChildAdapterListener onClickListener;
+    public SponsorChildAdapterListener onClickListener;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;
         TextView age;
         TextView country;
-        ImageButton remove;
-        ImageButton edit;
         TextView hobby;
-        TextView sponsor;
         CardView card;
 
 
@@ -40,10 +38,8 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
             this.name = itemView.findViewById(R.id.name);
             this.age = itemView.findViewById(R.id.age);
             this.country = itemView.findViewById(R.id.country);
-            this.remove = itemView.findViewById(R.id.remove);
-            this.edit = itemView.findViewById(R.id.edit);
+
             this.hobby = itemView.findViewById(R.id.hobby);
-            this.sponsor = itemView.findViewById(R.id.sponsor);
 
             this.card = itemView.findViewById(R.id.card);
 
@@ -51,7 +47,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
         }
     }
 
-    public ChildAdapter(List<ChildModel> data, Context context, ChildAdapterListener listener) {
+    public SponsorChildAdapter(List<ChildModel> data, Context context, SponsorChildAdapterListener listener) {
         this.childModel = data;
         this.context = context;
         this.onClickListener = listener;
@@ -72,9 +68,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
         TextView age = holder.age;
         TextView country = holder.country;
         TextView hobby = holder.hobby;
-        TextView sponsor = holder.sponsor;
-        ImageButton remove = holder.remove;
-        ImageButton edit = holder.edit;
+
         CardView card = holder.card;
 
 
@@ -83,25 +77,12 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
         country.setText("Country: "+childModel.get(listPosition).getCountry());
         hobby.setText("Hobby: "+childModel.get(listPosition).getHobby());
 
-        if(childModel.get(listPosition).getSponsor() != null){
-            sponsor.setText("Sponsor: "+childModel.get(listPosition).getSponsor());
-
-        }
 
 
-
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickListener.childOnEdit(v, listPosition);
-
-            }
-        });
-
-        remove.setOnClickListener(new View.OnClickListener() {
+        card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickListener.onRemoveChild(view, listPosition);
+                onClickListener.sponsorChild(view, listPosition);
             }
         });
 
@@ -113,11 +94,11 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
         return childModel.size();
     }
 
-    public interface ChildAdapterListener {
+    public interface SponsorChildAdapterListener {
 
-        void childOnEdit(View v, int position);
 
-        void onRemoveChild(View v, int position);
+
+        void sponsorChild(View v, int position);
 
     }
 

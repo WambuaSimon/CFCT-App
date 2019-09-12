@@ -15,7 +15,7 @@ import com.cfctapp.dao.SponsorDao;
 import com.cfctapp.models.ChildModel;
 import com.cfctapp.models.SponsorModel;
 
-@Database(entities = {ChildModel.class, SponsorModel.class}, version = 3,exportSchema = false)
+@Database(entities = {ChildModel.class, SponsorModel.class}, version = 4,exportSchema = false)
 public abstract class CFCTDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "cfct_db";

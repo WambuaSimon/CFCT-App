@@ -27,6 +27,7 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
         TextView name;
         TextView contribution;
         TextView country;
+        TextView assign_child;
         ImageButton remove;
         CardView card;
         ImageButton edit;
@@ -40,6 +41,7 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
             this.remove = itemView.findViewById(R.id.remove);
             this.edit = itemView.findViewById(R.id.edit);
             this.card = itemView.findViewById(R.id.card);
+            this.assign_child = itemView.findViewById(R.id.assign_child);
 
 
         }
@@ -65,15 +67,16 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
         final TextView name = holder.name;
         TextView contribution = holder.contribution;
         TextView country = holder.country;
+        TextView assign_child = holder.assign_child;
         ImageButton remove = holder.remove;
         ImageButton edit = holder.edit;
         CardView card = holder.card;
 
 
 //        age.setText("Age: "+sponsorModel.get(listPosition).getAge());
-        name.setText(sponsorModel.get(listPosition).getName());
-        country.setText(sponsorModel.get(listPosition).getCountry());
-        contribution.setText("$"+sponsorModel.get(listPosition).getMonthlyAmount());
+        name.setText("Name: "+sponsorModel.get(listPosition).getName());
+        country.setText("Country: "+sponsorModel.get(listPosition).getCountry());
+        contribution.setText(sponsorModel.get(listPosition).getMonthlyAmount());
 
 
         edit.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +92,12 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
                 onClickListener.onRemoveSponsor(view, listPosition);
             }
         });
-
+        assign_child.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickListener.assignChild(view,listPosition);
+            }
+        });
 
     }
 
@@ -101,6 +109,7 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
     public interface SponsorAdapterListener {
 
         void sponsorOnEdit(View v, int position);
+        void assignChild(View v, int position);
 
 
         void onRemoveSponsor(View v, int position);

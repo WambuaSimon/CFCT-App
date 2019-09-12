@@ -24,12 +24,19 @@ public class ChildModel {
     public String country;
     public String hobby;
     public int age;
+    public String sponsor;
 
     public ChildModel() {
     }
 
 
+    public String getSponsor() {
+        return sponsor;
+    }
 
+    public void setSponsor(String sponsor) {
+        this.sponsor = sponsor;
+    }
 
     public String getName() {
         return name;
