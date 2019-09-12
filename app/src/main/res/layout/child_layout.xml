@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:id="@+id/card"
-
     android:layout_marginBottom="@dimen/_10sdp"
     app:cardElevation="3dp">
 
@@ -43,6 +41,17 @@
             android:layout_weight="1" />
 
         <ImageButton
+            android:id="@+id/edit"
+            android:layout_gravity="end"
+            android:src="@drawable/custom_edit"
+
+            android:tint="@android:color/holo_blue_dark"
+            android:background="@null"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
             android:id="@+id/remove"
             android:layout_gravity="end"
             android:src="@drawable/custom_remove"
@@ -55,13 +64,7 @@
     </LinearLayout>
 
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           android:padding="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:orientation="horizontal">
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -69,20 +72,37 @@
                 android:text="Age"
                 android:layout_alignParentStart="true"
                 android:id="@+id/age"
+                android:layout_margin="@dimen/_5sdp"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Country"
+                android:layout_margin="@dimen/_5sdp"
                 android:id="@+id/country"
                 android:layout_alignParentEnd="true"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
 
-        </RelativeLayout>
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:text="Hobby"
+            android:id="@+id/hobby"
+            android:layout_margin="@dimen/_5sdp"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
 
     </LinearLayout>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -26,9 +27,9 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
         TextView name;
         TextView contribution;
         TextView country;
-
+        ImageButton remove;
         CardView card;
-
+        ImageButton edit;
 
 
         public MyViewHolder(View itemView) {
@@ -36,7 +37,8 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
             this.name = itemView.findViewById(R.id.name);
             this.contribution = itemView.findViewById(R.id.contribution);
             this.country = itemView.findViewById(R.id.country);
-
+            this.remove = itemView.findViewById(R.id.remove);
+            this.edit = itemView.findViewById(R.id.edit);
             this.card = itemView.findViewById(R.id.card);
 
 
@@ -63,21 +65,28 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
         final TextView name = holder.name;
         TextView contribution = holder.contribution;
         TextView country = holder.country;
-
+        ImageButton remove = holder.remove;
+        ImageButton edit = holder.edit;
         CardView card = holder.card;
 
 
 //        age.setText("Age: "+sponsorModel.get(listPosition).getAge());
         name.setText(sponsorModel.get(listPosition).getName());
         country.setText(sponsorModel.get(listPosition).getCountry());
-        contribution.setText(sponsorModel.get(listPosition).getMonthlyAmount());
+        contribution.setText("$"+sponsorModel.get(listPosition).getMonthlyAmount());
 
 
-        card.setOnClickListener(new View.OnClickListener() {
+        edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickListener.sponsorOnClick(v, listPosition);
+                onClickListener.sponsorOnEdit(v, listPosition);
 
+            }
+        });
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickListener.onRemoveSponsor(view, listPosition);
             }
         });
 
@@ -91,8 +100,10 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
 
     public interface SponsorAdapterListener {
 
-        void sponsorOnClick(View v, int position);
+        void sponsorOnEdit(View v, int position);
 
+
+        void onRemoveSponsor(View v, int position);
     }
 
 }

@@ -1,10 +1,12 @@
 package com.cfctapp.ui.fragments;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +24,8 @@ import com.cfctapp.adapter.ChildAdapter;
 import com.cfctapp.R;
 import com.cfctapp.adapter.SponsorAdapter;
 import com.cfctapp.db.CFCTDatabase;
+import com.cfctapp.models.SponsorModel;
+import com.cfctapp.models.SponsorModel;
 import com.cfctapp.models.SponsorModel;
 import com.cfctapp.models.SponsorModel;
 import com.cfctapp.ui.activities.MainActivity;
@@ -44,6 +48,7 @@ public class Sponsor_Fragment extends Fragment {
     RecyclerView recyclerView;
     SponsorAdapter sponsorAdapter;
     TextView empty_view;
+    String nameEdt, contributionEdt, autoCompleteTextViewEdt;
 
     public Sponsor_Fragment() {
         // Required empty public constructor
@@ -118,7 +123,7 @@ public class Sponsor_Fragment extends Fragment {
                             SponsorModel sponsorModel = new SponsorModel();
                             sponsorModel.setName(sponsorName);
                             sponsorModel.setCountry(countryName);
-                            sponsorModel.setMonthlyAmount("Monthly Contribution:  "+"$" + contributionTxt);
+                            sponsorModel.setMonthlyAmount("Monthly Contribution:  " + "$" + contributionTxt);
 
                             CFCTDatabase.getCfctDatabase(getActivity()).sponsorDao().insertSponsor(sponsorModel);
 
@@ -166,13 +171,74 @@ public class Sponsor_Fragment extends Fragment {
             }
 
             @Override
-            protected void onPostExecute(List<SponsorModel> sponsorModels) {
+            protected void onPostExecute(final List<SponsorModel> sponsorModels) {
 
                 sponsorAdapter = new SponsorAdapter(sponsorModels, getActivity(), new SponsorAdapter.SponsorAdapterListener() {
+
                     @Override
-                    public void sponsorOnClick(View v, int position) {
+                    public void sponsorOnEdit(View v, final int position) {
+                        View dialogView = getLayoutInflater().inflate(R.layout.edit_sponsor_modal, null);
+                        /*get views in the modal*/
+                        final EditText sponsor_name = dialogView.findViewById(R.id.sponsor_name);
+                        final EditText contribution = dialogView.findViewById(R.id.sponsor_contribution);
+                        final AutoCompleteTextView autoCompleteTextView = dialogView.findViewById(R.id.autoCompleteTextView);
+
+                        final Button add_child = dialogView.findViewById(R.id.add_child);
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                                (getActivity(), android.R.layout.select_dialog_item, CountryData.countryNames);
+
+                        autoCompleteTextView.setThreshold(1);
+                        autoCompleteTextView.setAdapter(adapter);
 
 
+                        final BottomSheetDialog fum_dialog = new BottomSheetDialog(getActivity());
+
+                        add_child.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                nameEdt = sponsor_name.getText().toString();
+                                contributionEdt = contribution.getText().toString();
+                                autoCompleteTextViewEdt = autoCompleteTextView.getText().toString();
+
+                                /*update fcn*/
+                                updateTask(sponsorModels.get(position));
+                                Intent intent = new Intent(getActivity(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        });
+                        fum_dialog.setContentView(dialogView);
+                        BottomSheetBehavior fumBottomSheetBehavior = BottomSheetBehavior.from(((View) dialogView.getParent()));
+                        fumBottomSheetBehavior.setPeekHeight(800);
+
+                        fum_dialog.show();
+                    }
+
+                    @Override
+                    public void onRemoveSponsor(View v, final int position) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Delete Record!")
+                                .setMessage("Would you like to Delete the selected record?")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new android.content.DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //do things
+
+                                        deleteSponsor(sponsorModels.get(position));
+                                        sponsorModels.remove(position);
+                                        sponsorAdapter.notifyDataSetChanged();
+
+
+                                    }
+                                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     }
                 });
 
@@ -182,5 +248,54 @@ public class Sponsor_Fragment extends Fragment {
         }
         GetSponsor gt = new GetSponsor();
         gt.execute();
+    }
+
+    private void deleteSponsor(final SponsorModel sponsorModel) {
+        class DeleteTask extends AsyncTask<Void, Void, Void> {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                CFCTDatabase.getCfctDatabase(getActivity()).sponsorDao().deleteSponsor(sponsorModel);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Toasty.success(getActivity(), "Record Deleted Successfully", Toasty.LENGTH_SHORT, true).show();
+
+            }
+        }
+
+        DeleteTask dt = new DeleteTask();
+        dt.execute();
+
+    }
+
+    private void updateTask(final SponsorModel task) {
+        class UpdateTask extends AsyncTask<Void, Void, Void> {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                task.setName(nameEdt);
+                task.setCountry(autoCompleteTextViewEdt);
+                task.setMonthlyAmount(contributionEdt);
+
+
+                CFCTDatabase.getCfctDatabase(getActivity()).sponsorDao().updateSponsor(task);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Toasty.success(getActivity(), "Record Edited Successfully", Toasty.LENGTH_SHORT, true).show();
+            }
+        }
+
+        UpdateTask ut = new UpdateTask();
+        ut.execute();
     }
 }

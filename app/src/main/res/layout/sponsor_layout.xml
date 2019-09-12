@@ -13,29 +13,65 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+
 
         android:orientation="vertical">
 
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:id="@+id/name"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-
+            android:orientation="horizontal">
 
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Name"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:id="@+id/name"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+
+            <ImageButton
+                android:id="@+id/edit"
+                android:layout_gravity="end"
+                android:src="@drawable/custom_edit"
+
+                android:tint="@android:color/holo_blue_dark"
+                android:background="@null"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageButton
+                android:id="@+id/remove"
+                android:layout_gravity="end"
+                android:src="@drawable/custom_remove"
+                android:tint="@android:color/holo_red_dark"
+                android:background="@null"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Country"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_margin="@dimen/_5sdp"
                 android:id="@+id/country"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
@@ -45,8 +81,8 @@
                 android:layout_height="wrap_content"
                 android:text="Monthly Contribution"
                 android:id="@+id/contribution"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
+               android:layout_margin="@dimen/_5sdp"
+
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
