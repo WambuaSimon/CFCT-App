@@ -1,10 +1,13 @@
 package com.cfctapp.ui.activities;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -87,5 +90,44 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    @Override
+    public void onBackPressed() {
 
+//       super.onBackPressed();
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNav);
+
+        int seletedItemId = bottomNavigationView.getSelectedItemId();
+        if (R.id.child_Fragment != seletedItemId) {
+            setHomeItem(MainActivity.this);
+        } else {
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+            builder.setTitle("Confirm");
+            builder.setMessage("Are you sure you want to exit the app?");
+
+            builder.setPositiveButton("YES", new android.content.DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(android.content.DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+            builder.setNegativeButton("NO", new android.content.DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+
+        }
+
+    }
+
+    public static void setHomeItem(Activity activity) {
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                activity.findViewById(R.id.bottomNav);
+        bottomNavigationView.setSelectedItemId(R.id.child_Fragment);
+    }
 }

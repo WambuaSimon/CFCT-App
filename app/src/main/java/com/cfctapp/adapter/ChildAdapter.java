@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cfctapp.R;
 import com.cfctapp.models.ChildModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -85,7 +86,10 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
 
         if(childModel.get(listPosition).getSponsor() != null){
             sponsor.setText("Sponsor: "+childModel.get(listPosition).getSponsor());
+            sponsor.setVisibility(View.VISIBLE);
 
+        }else {
+            sponsor.setVisibility(View.INVISIBLE);
         }
 
 

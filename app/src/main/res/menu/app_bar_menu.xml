@@ -1,25 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 <!--    <item-->
-
-<!--        android:id="@+id/profile"-->
-<!--        android:icon="@drawable/profile_white"-->
+<!--        android:id="@+id/action_search"-->
+<!--        android:icon="@drawable/search_bar"-->
+<!--        android:orderInCategory="100"-->
+<!--        android:title="Search"-->
 <!--        app:showAsAction="always"-->
-<!--        android:title="Profile" />-->
-
-<!--    <item-->
-
-<!--        android:id="@+id/cart"-->
-<!--        android:visible="false"-->
-<!--        android:icon="@drawable/cart"-->
-<!--        app:showAsAction="always"-->
-<!--        android:title="Cart" />-->
-
-<!--    <item-->
-<!--        android:id="@+id/about"-->
-<!--        app:showAsAction="never"-->
-<!--        android:icon="@drawable/history"-->
-<!--        android:title="About" />-->
-
+<!--        app:actionViewClass="androidx.appcompat.widget.SearchView" />-->
 </menu>

@@ -91,6 +91,9 @@ public class Child_Fragment extends Fragment {
         ctx = this.getActivity();
     }
 
+
+
+
     void addChild() {
         View dialogView = getLayoutInflater().inflate(R.layout.add_child_modal, null);
         /*get views in the modal*/
@@ -316,6 +319,8 @@ public class Child_Fragment extends Fragment {
         UpdateTask ut = new UpdateTask();
         ut.execute();
     }
+
+
 }
 
 

@@ -57,7 +57,7 @@ public class SponsorChildAdapter extends RecyclerView.Adapter<SponsorChildAdapte
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.child_layout, parent, false);
+                .inflate(R.layout.sponsor_child_layout, parent, false);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
     }
