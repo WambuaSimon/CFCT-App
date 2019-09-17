@@ -1,6 +1,7 @@
 package com.cfctapp.ui.fragments;
 
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +25,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cfctapp.adapter.ChildAdapter;
 import com.cfctapp.R;
@@ -52,7 +55,7 @@ public class Child_Fragment extends Fragment {
     TextView empty_view;
     MaterialDialog mDialog;
     Context ctx;
-
+    SearchView searchView;
     String childNameEdt, childAgeEdt, countryNameEdt, hobbytxtEdt;
 
     public Child_Fragment() {
@@ -89,6 +92,57 @@ public class Child_Fragment extends Fragment {
         });
 
         ctx = this.getActivity();
+        setHasOptionsMenu(true);
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.search, menu);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
+        // listening to search query text change
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                // filter recycler view when query submitted
+                childAdapter.getFilter().filter(query);
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query)
+            {
+
+//                Toast.makeText(ctx, "Stuff changed", Toast.LENGTH_SHORT).show();
+                // filter recycler view when text is changed
+                childAdapter.getFilter().filter(query);
+
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_search)
+        {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

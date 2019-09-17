@@ -4,25 +4,29 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.cfctapp.R;
 import com.cfctapp.models.ChildModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder> {
+public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder> implements Filterable {
 
     private List<ChildModel> childModel;
+    private List<ChildModel> filteredChildModel;
     Context context;
     public ChildAdapterListener onClickListener;
+
+
+
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -54,6 +58,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
 
     public ChildAdapter(List<ChildModel> data, Context context, ChildAdapterListener listener) {
         this.childModel = data;
+        this.filteredChildModel = data;
         this.context = context;
         this.onClickListener = listener;
 
@@ -79,19 +84,18 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
         CardView card = holder.card;
 
 
-        age.setText("Age: " + childModel.get(listPosition).getAge());
-        name.setText("Name: "+childModel.get(listPosition).getName());
-        country.setText("Country: "+childModel.get(listPosition).getCountry());
-        hobby.setText("Hobby: "+childModel.get(listPosition).getHobby());
+        age.setText("Age: " + filteredChildModel.get(listPosition).getAge());
+        name.setText("Name: " + filteredChildModel.get(listPosition).getName());
+        country.setText("Country: " + filteredChildModel.get(listPosition).getCountry());
+        hobby.setText("Hobby: " + filteredChildModel.get(listPosition).getHobby());
 
-        if(childModel.get(listPosition).getSponsor() != null){
-            sponsor.setText("Sponsor: "+childModel.get(listPosition).getSponsor());
+        if (filteredChildModel.get(listPosition).getSponsor() != null) {
+            sponsor.setText("Sponsor: " + filteredChildModel.get(listPosition).getSponsor());
             sponsor.setVisibility(View.VISIBLE);
 
-        }else {
+        } else {
             sponsor.setVisibility(View.INVISIBLE);
         }
-
 
 
         edit.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +118,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return childModel.size();
+        return filteredChildModel.size();
     }
 
     public interface ChildAdapterListener {
@@ -124,5 +128,39 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
         void onRemoveChild(View v, int position);
 
     }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    filteredChildModel = childModel;
+                } else {
+                    List<ChildModel> filteredList = new ArrayList<>();
+                    for (ChildModel child : childModel) {
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name
+                        if (child.getName().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(child);
+                        }
+                    }
 
+                    filteredChildModel = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredChildModel;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredChildModel = (ArrayList<ChildModel>) filterResults.values;
+
+                // refresh the list with filtered data
+                notifyDataSetChanged();
+            }
+        };
+    }
 }
